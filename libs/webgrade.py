@@ -30,6 +30,10 @@ class GradeSpider(object):
             self.login(self.headers['zjh'], self.headers['mm'])
 
     def initVar(self):
+        """
+        初始化所有成员变量
+        self.URLs表示所有url地址
+        """
         self.baseURL = 'http://210.30.1.60/'
         self.URLs = {'login':
                      self.baseURL + 'loginAction.do',
@@ -46,6 +50,10 @@ class GradeSpider(object):
         self.session = None
 
     def login(self, name=None, passwd=None):
+        """
+        登录
+        成功返回True 失败返回False
+        """
         self.headers['zjh'] = name
         self.headers['mm'] = passwd
 
@@ -59,20 +67,6 @@ class GradeSpider(object):
             return False
         return True
 
-    def getAllGrade(self):
-        if self.session is None:
-            return
-        response = self.session.get(self.URLs['AllGrade'])
-        html = response.text
-        print html
-
-    def getTermGrade(self):
-        if self.session is None:
-            return
-        response = self.session.get(self.URLs['TermGrade'])
-        html = response.text
-        print html
-
     def logout(self):
         if self.session is None:
             return
@@ -83,3 +77,20 @@ class GradeSpider(object):
             self.session = None
             return True
         return False
+
+    def getAllGrade(self):
+        if self.session is None:
+            return
+        response = self.session.get(self.URLs['AllGrade'])
+        html = response.text
+        return html
+
+    def getTermGrade(self):
+        if self.session is None:
+            return
+        response = self.session.get(self.URLs['TermGrade'])
+        html = response.text
+        return html
+
+    def close(self):
+        return self.logout()
